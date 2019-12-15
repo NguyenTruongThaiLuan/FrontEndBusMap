@@ -8,6 +8,21 @@
     <title>Tuyến xe bus số 7</title>
     <link rel="stylesheet" href="CSS/index.css" />
     <link rel="stylesheet" href="CSS/header.css">
+    <style>
+        #map {
+            width: 640px;
+            height: 480px;
+        }
+        
+        #over_map {
+            position: absolute;
+            top: 10px;
+            left: 89%;
+            z-index: 99;
+            background-color: #ccffcc;
+            padding: 10px;
+        }
+    </style>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -17,153 +32,342 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="JS/index.js"></script>
     <script src="JS/busInfo7.js"></script>
-    <script src="JS/busStation7.js"></script>
+    <!-- <script src="JS/busStation7.js"></script> -->
+</head>
 
-    <body>
-        <header>
-            <a href="index.html">
-                <img class="timlogo" src="img/icons-bus.png">
-                <h1 class="name-project">BUS MAP TP.HCM</h1>
-            </a>
-            <div class="nav-modal">
-                <div class="blob"></div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Trang chủ</a>
-                        </li>
-                        <li><a href="#">ABOUT</a>
-                        </li>
-                        <li><a href="#">Tuyến Xe</a>
-                            <ul>
-                                <li><a href="so7.html">07 : Chợ Lớn‎ → Gò vấp</a></li>
-                                <li><a href="so18.html">18 : Bến Thành ‎→ Chợ Hiệp Thành</a></li>
-                                <li><a href="so24.html">24 : Bến Xe Miền Đông ‎→ Hóc Môn</a></li>
-                                <li><a href="so148.html">148 : Bến Xe Miền Tây → Gò Vấp</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+<body>
+    <header>
+        <a href="index.html">
+            <img class="timlogo" src="img/icons-bus.png">
+            <h1 class="name-project">BUS MAP TP.HCM</h1>
+        </a>
+        <div class="nav-modal">
+            <div class="blob"></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trang chủ</a>
+                    </li>
+                    <li><a href="#">ABOUT</a>
+                    </li>
+                    <li><a href="#">Tuyến Xe</a>
+                        <ul>
+                            <li><a href="so7.html">07 : Chợ Lớn‎ → Gò vấp</a></li>
+                            <li><a href="so18.html">18 : Bến Thành ‎→ Chợ Hiệp Thành</a></li>
+                            <li><a href="so24.html">24 : Bến Xe Miền Đông ‎→ Hóc Môn</a></li>
+                            <li><a href="so148.html">148 : Bến Xe Miền Tây → Gò Vấp</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="head">
+            <a href="#" class="tile socialmedia"><i class="fa fa-facebook-official"></i></a>
+            <a href="#" class="tile socialmedia"><i class="fa fa-instagram"></i></a>
+            <a href="#" class="tile socialmedia"><i class="fa fa-twitter-square"></i></a>
+            <div class="tile burger">
+                <div class="meat">
+                    <div class="line one"></div>
+                    <div class="line two"></div>
+                    <div class="line three"></div>
+                </div>
             </div>
-            <div class="head">
-                <a href="#" class="tile socialmedia"><i class="fa fa-facebook-official"></i></a>
-                <a href="#" class="tile socialmedia"><i class="fa fa-instagram"></i></a>
-                <a href="#" class="tile socialmedia"><i class="fa fa-twitter-square"></i></a>
-                <div class="tile burger">
-                    <div class="meat">
-                        <div class="line one"></div>
-                        <div class="line two"></div>
-                        <div class="line three"></div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="mvf-wrapper" style="border-bottom-color: #85bb52">
+            <img src=" img/bus.png " alt="icon-bus ">
+            <h1 class="text "><span id="idBus"></span></h1>
+        </div>
+        <div class="line-title ">
+            <h2 class="title"><span id="busName"></span></h2>
+        </div>
+    </section>
+    <div class="content">
+        <div class="left ">
+            <div class="title-left">
+                <h3>Lịch trình và Điểm dừng của xe buýt số <span id="idBus"></span> </h3>
+                <p id="busDescription">
+                </p>
+            </div>
+            <div class="stops-wrapper">
+                <div class="stops-header">
+                    <h2>
+                        Chỉ đường: Bãi Xe Buýt <span id="busName"></span> (63 điểm dừng)
+                    </h2>
+                </div>
+                <ul id="infoBusStation" class="stops-list bordered ">
+                </ul>
+            </div>
+            <div class="list-bus-stop">
+                <h5>Danh sách các điểm dừng xe buýt số <span id="idBus"></span></h5>
+                <div id="listBusStation"></div>
+            </div>
+        </div>
+        <div class="map right ">
+
+            <!--Card-->
+            <div class="card card-cascade narrower ">
+
+                <!--Card image-->
+                <div class="view view-cascade gradient-card-header blue-gradient ">
+                    <h5 class="mb-0 map-name">Map tuyến xe bus số <span id="idBus"></span></h5>
+                </div>
+                <!--/Card image-->
+
+                <!--Card content-->
+                <div class="card-body card-body-cascade text-center ">
+                    <div id="map-container-google-8 " class="z-depth-1-half map-container-5 " style="height: 300px ">
+                        <div id="map"></div>
                     </div>
-                </div>
-            </div>
-        </header>
-
-        <section class="hero-section">
-            <div class="mvf-wrapper" style="border-bottom-color: #85bb52">
-                <img src=" img/bus.png " alt="icon-bus ">
-                <h1 class="text "><span id="idBus"></span></h1>
-            </div>
-            <div class="line-title ">
-                <h2 class="title"><span id="busName"></span></h2>
-            </div>
-        </section>
-        <div class="content">
-            <div class="left ">
-                <div class="title-left">
-                    <h3>Lịch trình và Điểm dừng của xe buýt số <span id="idBus"></span> </h3>
-                    <p id="busDescription">
-                    </p>
-                </div>
-                <div class="stops-wrapper">
-                    <div class="stops-header">
-                        <h2>
-                            Chỉ đường: Bãi Xe Buýt <span id="busName"></span> (63 điểm dừng)
-                        </h2>
-                    </div>
-                    <ul id="infoBusStation" class="stops-list bordered ">
-                    </ul>
-                </div>
-                <div class="list-bus-stop">
-                    <h5>Danh sách các điểm dừng xe buýt số <span id="idBus"></span></h5>
-                    <div id="listBusStation"></div>
-                </div>
-            </div>
-            <div class="map right ">
-
-                <!--Card-->
-                <div class="card card-cascade narrower ">
-
-                    <!--Card image-->
-                    <div class="view view-cascade gradient-card-header blue-gradient ">
-                        <h5 class="mb-0 map-name">Map tuyến xe bus số <span id="idBus"></span></h5>
-                    </div>
-                    <!--/Card image-->
-
-                    <!--Card content-->
-                    <div class="card-body card-body-cascade text-center ">
-
-                        <!--Google map-->
-                        <div id="map-container-google-8 " class="z-depth-1-half map-container-5 " style="height: 300px ">
-                            <iframe src="https://www.google.com/maps/d/embed?mid=1Fo3k4QnLXEjhRRP-ALn98KARRlof82Jh" width="640" height="480"></iframe>
+                    <div id="over_map">
+                        <div>
+                            <span>Online Bus: </span><span id="bus">0</span>
                         </div>
-
                     </div>
-                    <!--/.Card content-->
-
                 </div>
-                <!--/.Card-->
-                <div id="info" class="info-container">
-                    <h3>Lịch trình xe buýt số <span id="idBus"></span></h3>
-                    Xe buýt số <span id="idBus"></span> tuyến đường hoạt động trong ngày thường.
-                    <br> Giờ lịch trình thường ngày: <span id="busTime"></span>
-                    <br>Giá vé : <span id="amount"></span> VNĐ
+                <!--/.Card content-->
 
-                    <br>Giá vé (Học sinh/sinh viên) : <span id="amountForStudent"></span> VNĐ
-                    <br>Độ dài tuyến : <span id="routeLength"></span> km
-                    <br>Thời gian chạy : <span id="runTime"></span> phút
-                    <br>Giãn cách tuyến : <span id="tripDistance"></span> phút
-                    <br>Số chuyến : <span id="numberOfTrips"></span> chuyến/ngày
-                </div>
+            </div>
+            <!--/.Card-->
+            <div id="info" class="info-container">
+                <h3>Lịch trình xe buýt số <span id="idBus"></span></h3>
+                Xe buýt số <span id="idBus"></span> tuyến đường hoạt động trong ngày thường.
+                <br> Giờ lịch trình thường ngày: <span id="busTime"></span>
+                <br>Giá vé : <span id="amount"></span> VNĐ
+
+                <br>Giá vé (Học sinh/sinh viên) : <span id="amountForStudent"></span> VNĐ
+                <br>Độ dài tuyến : <span id="routeLength"></span> km
+                <br>Thời gian chạy : <span id="runTime"></span> phút
+                <br>Giãn cách tuyến : <span id="tripDistance"></span> phút
+                <br>Số chuyến : <span id="numberOfTrips"></span> chuyến/ngày
             </div>
         </div>
-        <div class="footer">
-            <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
-                    <ul class="about-us">
-                        <span>Về Chúng Tôi</span>
-                        <li>
-                            <p>Tên dồ án: </p>
-                        </li>
+    </div>
+    <div class="footer">
+        <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
+                <ul class="about-us">
+                    <span>Về Chúng Tôi</span>
+                    <li>
+                        <p>Tên dồ án: </p>
+                    </li>
 
-                        <li>
-                            <p>Sinh viên thực hiện 1: </p>
-                        </li>
+                    <li>
+                        <p>Sinh viên thực hiện 1: </p>
+                    </li>
 
-                        <li>
-                            <p>Sinh viên thực hiện 2: </p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                    <ul class="lecturers">
-                        <span>Giảng Viên Hướng Dẫn</span>
-                        <li>
-                            <p>Cô Khoa</p>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                    <ul class="university">
-                        <span>Trường ĐH Công Nghiệp Tp.HCM</span>
-                        <li>
-                            <img class="logo-iuh" src="img/Logo_IUH.png" alt="logo-iuh">
-                        </li>
-                </div>
+                    <li>
+                        <p>Sinh viên thực hiện 2: </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <ul class="lecturers">
+                    <span>Giảng Viên Hướng Dẫn</span>
+                    <li>
+                        <p>Cô Khoa</p>
+                    </li>
+                </ul>
             </div>
 
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <ul class="university">
+                    <span>Trường ĐH Công Nghiệp Tp.HCM</span>
+                    <li>
+                        <img class="logo-iuh" src="img/Logo_IUH.png" alt="logo-iuh">
+                    </li>
+            </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    </body>
+
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBfDNn3qhkezSxVe6Ra2QeRv3CFafL1xJc",
+            authDomain: "busmap-80d51.firebaseapp.com",
+            databaseURL: "https://busmap-80d51.firebaseio.com",
+            projectId: "busmap-80d51",
+            storageBucket: "busmap-80d51.appspot.com",
+            messagingSenderId: "262410323493",
+            appId: "1:262410323493:web:df8a91ee7554e10e4b61cc",
+            measurementId: "G-G1QC9ZZQG7"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // firebase.analytics();
+    </script>
+
+    <script>
+        // counter for online bus...
+        var bus_count = 0;
+        // markers array to store all the markers, so that we could remove marker when any car goes offline and its data will be remove from realtime database...
+        var markers = [];
+        var map;
+        var myMap = new Map();
+        var directionsService;
+        var directionsRenderer;
+
+        function initMap() { // Google Map Initialization... 
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                center: new google.maps.LatLng(10.822290, 106.687497),
+                mapTypeId: 'terrain'
+            });
+            // directionsRenderer.setMap(map);
+        }
+        // This Function will create a car icon with angle and add/display that marker on the map
+        function AddCar(data) {
+            var icon = { // car icon
+                path: 'M29.395,0H17.636c-3.117,0-5.643,3.467-5.643,6.584v34.804c0,3.116,2.526,5.644,5.643,5.644h11.759   c3.116,0,5.644-2.527,5.644-5.644V6.584C35.037,3.467,32.511,0,29.395,0z M34.05,14.188v11.665l-2.729,0.351v-4.806L34.05,14.188z    M32.618,10.773c-1.016,3.9-2.219,8.51-2.219,8.51H16.631l-2.222-8.51C14.41,10.773,23.293,7.755,32.618,10.773z M15.741,21.713   v4.492l-2.73-0.349V14.502L15.741,21.713z M13.011,37.938V27.579l2.73,0.343v8.196L13.011,37.938z M14.568,40.882l2.218-3.336   h13.771l2.219,3.336H14.568z M31.321,35.805v-7.872l2.729-0.355v10.048L31.321,35.805',
+                scale: 0.5,
+                fillColor: "#427af4", //<-- Car Color, you can change it 
+                fillOpacity: 1,
+                strokeWeight: 1,
+                anchor: new google.maps.Point(0, 5),
+                rotation: data.val().angle //<-- Car angle
+            };
+            var uluru = {
+                lat: data.val().Latitude,
+                lng: data.val().Longitude
+            };
+            var marker = new google.maps.Marker({
+                position: uluru,
+                icon: icon,
+                map: map
+            });
+            var infoWindow = new google.maps.InfoWindow;
+            marker.addListener('click', function() {
+                infoWindow.setContent("Xe số: " + data.val().idBusInfo);
+                infoWindow.open(map, marker);
+            });
+            markers[data.key] = marker; // add marker in the markers array...
+            document.getElementById("bus").innerHTML = bus_count;
+        }
+        // get firebase database reference...
+        var bus_Ref = firebase.database().ref('/');
+        // this event will be triggered when a new object will be added in the database...
+        bus_Ref.on('child_added', function(data) {
+            var value = data.key.slice(0, 3)
+            if (value == "007") {
+                bus_count++;
+                AddCar(data);
+            }
+        });
+        // this event will be triggered on location change of any car...
+        bus_Ref.on('child_changed', function(data) {
+            markers[data.key].setMap(null);
+            AddCar(data);
+        });
+        // If any car goes offline then this event will get triggered and we'll remove the marker of that car...  
+        bus_Ref.on('child_removed', function(data) {
+            markers[data.key].setMap(null);
+            bus_count--;
+            document.getElementById("bus").innerHTML = bus_count;
+        });
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+            directionsService.route({
+                    origin: {
+                        query: "10.751239, 106.651203"
+                    },
+                    destination: {
+                        query: "10.823636, 106.692088"
+                    },
+                    travelMode: 'TRANSIT',
+                    transitOptions: {
+                        modes: ['BUS']
+                    },
+                },
+                function(response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                        computeTotalDistance(response)
+                    } else {
+                        console.log('Directions request failed due to ' + status);
+                    }
+                });
+        }
+
+        function computeTotalDistance(result) {
+            var total = 0;
+            var myroute = result.routes[0].legs[0];
+            alert(myroute.duration.text);
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer, name, latitude, longitude) {
+            directionsService.route({
+                    origin: {
+                        query: "10.821332, 106.687107"
+                    },
+                    destination: {
+                        query: latitude + "," + longitude
+                    },
+                    travelMode: 'TRANSIT',
+                    transitOptions: {
+                        modes: ['BUS']
+                    },
+                },
+                function(response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                        computeTotalDistance(response, name)
+                    } else {
+                        console.log('Directions request failed due to ' + status);
+                    }
+                });
+        }
+
+        function computeTotalDistance(result, name) {
+            var total = 0;
+            var myroute = result.routes[0].legs[0];
+            myMap.set(name, myroute.duration.text);
+
+            // console.log(myroute.duration.text)
+        }
+
+
+        $(document).ready(function() {
+            var data;
+            $.ajax({
+                dataType: "json",
+                url: 'http://localhost:8899/busstation/getBusStationByIdBus/7',
+                data: data,
+                error: function() {
+                    $('#infoBusStation').html('<p>Lỗi Khi đọc dữ liệu</p>');
+                },
+                success: function(data) {
+                    var listBusStation = [];
+                    for (let index = 0; index < data.length; index++) {
+                        const name = data[index].name;
+                        // calculateAndDisplayRoute(directionsService, directionsRenderer, data[index].name, data[index].latitude, data[index].longitude)
+
+                    }
+                    for (let index = 0; index < data.length; index++) {
+                        const name = data[index].name;
+                        var $busStationName = "<li class='stop-container' role='stopContainer' tabindex='-1'><div class='stop-wrapper '><h3>" + name + " - " + myMap.get(name) + "</h3></div></li>";
+                        $('#infoBusStation').append($busStationName);
+
+                        listBusStation.push(name);
+                    }
+                    console.log(myMap)
+                    $('#listBusStation').text(listBusStation.join(' - '));
+
+                }
+            });
+        });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIVgVmTILIEtffaRvluPxdgLjS61uC66E&callback=initMap" async defer></script>
+</body>
 
 </html>
