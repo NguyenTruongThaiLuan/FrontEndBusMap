@@ -275,3 +275,17 @@ body {
     position: absolute;
     width: 1px;
 }
+
+#map {
+    width: 640px;
+    height: 480px;
+}
+
+#over_map {
+    position: absolute;
+    top: 10px;
+    left: 89%;
+    z-index: 99;
+    background-color: #ccffcc;
+    padding: 10px;
+}

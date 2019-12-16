@@ -8,21 +8,6 @@
     <title>Tuyến xe bus số 7</title>
     <link rel="stylesheet" href="CSS/index.css" />
     <link rel="stylesheet" href="CSS/header.css">
-    <style>
-        #map {
-            width: 640px;
-            height: 480px;
-        }
-        
-        #over_map {
-            position: absolute;
-            top: 10px;
-            left: 89%;
-            z-index: 99;
-            background-color: #ccffcc;
-            padding: 10px;
-        }
-    </style>
     <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -32,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="JS/index.js"></script>
     <script src="JS/busInfo7.js"></script>
-    <!-- <script src="JS/busStation7.js"></script> -->
+    <script src="JS/busStation7.js"></script>
 </head>
 
 <body>
@@ -224,7 +209,8 @@
                 center: new google.maps.LatLng(10.822290, 106.687497),
                 mapTypeId: 'terrain'
             });
-            // directionsRenderer.setMap(map);
+            directionsRenderer.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsRenderer)
         }
         // This Function will create a car icon with angle and add/display that marker on the map
         function AddCar(data) {
@@ -284,7 +270,7 @@
                     destination: {
                         query: "10.823636, 106.692088"
                     },
-                    travelMode: 'TRANSIT',
+                    travelMode: 'DRIVING',
                     transitOptions: {
                         modes: ['BUS']
                     },
@@ -298,74 +284,6 @@
                     }
                 });
         }
-
-        function computeTotalDistance(result) {
-            var total = 0;
-            var myroute = result.routes[0].legs[0];
-            alert(myroute.duration.text);
-        }
-
-        function calculateAndDisplayRoute(directionsService, directionsRenderer, name, latitude, longitude) {
-            directionsService.route({
-                    origin: {
-                        query: "10.821332, 106.687107"
-                    },
-                    destination: {
-                        query: latitude + "," + longitude
-                    },
-                    travelMode: 'TRANSIT',
-                    transitOptions: {
-                        modes: ['BUS']
-                    },
-                },
-                function(response, status) {
-                    if (status === 'OK') {
-                        directionsRenderer.setDirections(response);
-                        computeTotalDistance(response, name)
-                    } else {
-                        console.log('Directions request failed due to ' + status);
-                    }
-                });
-        }
-
-        function computeTotalDistance(result, name) {
-            var total = 0;
-            var myroute = result.routes[0].legs[0];
-            myMap.set(name, myroute.duration.text);
-
-            // console.log(myroute.duration.text)
-        }
-
-
-        $(document).ready(function() {
-            var data;
-            $.ajax({
-                dataType: "json",
-                url: 'http://localhost:8899/busstation/getBusStationByIdBus/7',
-                data: data,
-                error: function() {
-                    $('#infoBusStation').html('<p>Lỗi Khi đọc dữ liệu</p>');
-                },
-                success: function(data) {
-                    var listBusStation = [];
-                    for (let index = 0; index < data.length; index++) {
-                        const name = data[index].name;
-                        // calculateAndDisplayRoute(directionsService, directionsRenderer, data[index].name, data[index].latitude, data[index].longitude)
-
-                    }
-                    for (let index = 0; index < data.length; index++) {
-                        const name = data[index].name;
-                        var $busStationName = "<li class='stop-container' role='stopContainer' tabindex='-1'><div class='stop-wrapper '><h3>" + name + " - " + myMap.get(name) + "</h3></div></li>";
-                        $('#infoBusStation').append($busStationName);
-
-                        listBusStation.push(name);
-                    }
-                    console.log(myMap)
-                    $('#listBusStation').text(listBusStation.join(' - '));
-
-                }
-            });
-        });
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIVgVmTILIEtffaRvluPxdgLjS61uC66E&callback=initMap" async defer></script>
 </body>
