@@ -2,7 +2,7 @@ $(document).ready(function() {
     var data;
     $.ajax({
         dataType: "json",
-        url: 'http://localhost:8899/busstation/getBusStationByIdBus/24',
+        url: 'http://localhost:8080/BusMap/busstation/getBusStationByIdBus',
         data: data,
         error: function() {
             $('#infoBusStation').html('<p>Lỗi Khi đọc dữ liệu</p>');
@@ -10,7 +10,7 @@ $(document).ready(function() {
         success: function(data) {
             var listBusStation = [];
             for (let index = 0; index < data.length; index++) {
-                const name = data[index].name;
+                const name = data[index];
 
                 var $busStationName = "<li class='stop-container' role='stopContainer' tabindex='-1'><div class='stop-wrapper '><h3>" + name + "</h3></div></li>";
                 $('#infoBusStation').append($busStationName);
@@ -18,7 +18,6 @@ $(document).ready(function() {
                 listBusStation.push(name);
 
             }
-            console.log(myMap)
             $('#listBusStation').text(listBusStation.join(' - '));
 
         }

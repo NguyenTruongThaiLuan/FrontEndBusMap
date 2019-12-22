@@ -2,7 +2,7 @@ $(document).ready(function() {
     var data;
     $.ajax({
         dataType: "json",
-        url: 'http://localhost:8899/businfo/findById/24',
+        url: 'http://localhost:8080/BusMap/businfo/findById/24',
         data: data,
         error: function() {
             $('#info').html('<p>Lỗi Khi đọc dữ liệu</p>');

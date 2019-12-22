@@ -32,7 +32,7 @@
                 <ul>
                     <li><a href="index.html">Trang chủ</a>
                     </li>
-                    <li><a href="#">ABOUT</a>
+                    <li><a href="about.html">ABOUT</a>
                     </li>
                     <li><a href="#">Tuyến Xe</a>
                         <ul>
@@ -177,14 +177,14 @@
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
-            apiKey: "AIzaSyBfDNn3qhkezSxVe6Ra2QeRv3CFafL1xJc",
-            authDomain: "busmap-80d51.firebaseapp.com",
-            databaseURL: "https://busmap-80d51.firebaseio.com",
-            projectId: "busmap-80d51",
-            storageBucket: "busmap-80d51.appspot.com",
-            messagingSenderId: "262410323493",
-            appId: "1:262410323493:web:df8a91ee7554e10e4b61cc",
-            measurementId: "G-G1QC9ZZQG7"
+            apiKey: "AIzaSyBndZXpfYU9-VLU29ezyRz3tYjKQ4ysg-g",
+            authDomain: "busmap-4731d.firebaseapp.com",
+            databaseURL: "https://busmap-4731d.firebaseio.com",
+            projectId: "busmap-4731d",
+            storageBucket: "busmap-4731d.appspot.com",
+            messagingSenderId: "994598254824",
+            appId: "1:994598254824:web:6d5a8436d95423c620f15d",
+            measurementId: "G-DS2TTV2PQ3"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -278,7 +278,6 @@
                 function(response, status) {
                     if (status === 'OK') {
                         directionsRenderer.setDirections(response);
-                        computeTotalDistance(response)
                     } else {
                         console.log('Directions request failed due to ' + status);
                     }

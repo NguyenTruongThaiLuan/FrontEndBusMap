@@ -2,7 +2,7 @@ $(document).ready(function() {
     var data;
     $.ajax({
         dataType: "json",
-        url: 'http://localhost:8899/businfo/findById/24',
+        url: 'http://localhost:8080/BusMap/businfo/getBusInfoCommon',
         data: data,
         error: function() {
             $('#info').html('<p>Lỗi Khi đọc dữ liệu</p>');
@@ -36,7 +36,7 @@ $(document).ready(function() {
     var data;
     $.ajax({
         dataType: "json",
-        url: 'http://localhost:8899/businfo/getBusInfoAll',
+        url: 'http://localhost:8080/BusMap/businfo/getBusInfoAll',
         data: data,
         error: function() {
             $('#infoBusList').html('<p>Lỗi Khi đọc dữ liệu</p>');
@@ -45,9 +45,22 @@ $(document).ready(function() {
             for (let index = 0; index < data.length; index++) {
                 const id = data[index].id;
                 const name = data[index].name;
-                var $busStationName = "<li class='stop-container' role='stopContainer' tabindex='-1'><div class='stop-wrapper '><h3>" + id + " : " + name + "</h3></div></li>";
+                var $busStationName = "<li class='stop-container' role='stopContainer' tabindex='-1'><div class='stop-wrapper '><a href='so" + id + ".html'>" + id + " : " + name + "</a></div></li>";
                 $('#infoBusList').append($busStationName);
             }
+        }
+    });
+});
+$(document).ready(function() {
+    $("#timTuyenXe").autocomplete({
+        source: [
+            { value: "07 : Chợ Lớn‎ → Gò vấp", url: "so7.html" },
+            { value: "18 : Bến Thành ‎→ Hiệp Thành", url: "so18.html" },
+            { value: "24 : Bến Xe Miền Đông ‎→ Hóc Môn", url: "so24.html" },
+            { value: "148 : Bến Xe Miền Tây → Gò Vấp", url: "so148.html" }
+        ],
+        select: function(event, ui) {
+            window.location = ui.item.url;
         }
     });
 });
